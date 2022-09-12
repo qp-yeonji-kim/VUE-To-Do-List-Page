@@ -15,7 +15,6 @@
            @keyup.enter="searchTodo"
            placeholder="Search">
     <hr />
-    <TodoSimpleForm @sendTodo="addTodo" />
     <div>{{ error }}</div>
     <div v-if="!todoList.length">There is nothing to display</div> <!--filteredTodoList-->
     <TodoListCard :sendTodoList="todoList" @receiveCompleteTodo="completeTodo" @receiveDeleteTodo="deleteTodo"/>  <!--filteredTodoList-->
@@ -40,7 +39,6 @@
 
 <script>
 import {ref, computed, watch} from "vue";
-import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
 import TodoListCard from '@/components/TodoListCard.vue';
 import axios from 'axios';
 import Toast from '@/components/Toast.vue';
@@ -49,7 +47,6 @@ import { useRouter } from 'vue-router';
 
 export default{
   components: {
-    TodoSimpleForm,
     TodoListCard,
     Toast,
   },
