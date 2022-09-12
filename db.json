@@ -1,19 +1,9 @@
 {
   "todoList": [
     {
-      "subject": "월",
-      "completed": false,
-      "id": 1
-    },
-    {
       "subject": "월화",
       "completed": true,
       "id": 2
-    },
-    {
-      "subject": "금요일이었으면 좋겠다. 응응",
-      "completed": true,
-      "id": 3
     },
     {
       "id": 4

@@ -62,6 +62,7 @@ import axios from 'axios'; /* axios를 통해 데이터를 받아올 것임. */
 import { ref, computed } from 'vue';
 import _ from 'lodash'; /* 통상적으로 lodash는 _를 써준다 한다. */
 import Toast from '@/components/Toast.vue';
+import { useToast } from '@/composables/toast';
 
 export default{
   components: {
@@ -73,10 +74,14 @@ export default{
     const todo = ref(null);
     const originalTodo = ref(null);
     const loading = ref(true);
-    const showToast = ref(false);
-    const toastMessage = ref('');
-    const toastColor = ref('');
     const todoId = route.params.id;
+
+    const {
+      toastMessage,
+      toastColor,
+      showToast,
+      triggerToast,
+    } = useToast(); //함수를 실행시킴
 
     const getTodo = async () => {
       try{
@@ -106,17 +111,6 @@ export default{
     }
 
     getTodo();
-
-    const triggerToast = (message, color) => {
-      toastMessage.value = message;
-      toastColor.value = color;
-      showToast.value = true;
-      setTimeout(() => {
-        toastMessage.value = ''; // 이 부분 꼭 필요한걸까?
-        toastColor.value = '';
-        showToast.value = false;
-      }, 3000);
-    }
 
     const onSave = async () => {
       try{

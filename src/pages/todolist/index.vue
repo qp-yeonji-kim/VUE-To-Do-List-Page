@@ -22,6 +22,12 @@
       </ul>
     </nav>
   </div>
+
+  <Toast
+    v-if="showToast"
+    :message= "toastMessage"
+    :color= "toastColor"
+  />
 </template>
 
 <script>
@@ -29,11 +35,14 @@ import {ref, computed, watch} from "vue";
 import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
 import TodoListCard from '@/components/TodoListCard.vue';
 import axios from 'axios';
+import Toast from '@/components/Toast.vue';
+import { useToast } from '@/composables/toast';
 
 export default{
   components: {
     TodoSimpleForm,
     TodoListCard,
+    Toast,
   },
   setup(){
     const todoList = ref([]);
@@ -45,6 +54,8 @@ export default{
       return Math.ceil(numTodos.value / limit);
     })
     const searchText = ref('');
+    let timeout = null;
+
     const getTodoList = async (page = curPage.value) => {
       try {
         const res = await axios.get(`http://localhost:3000/todoList?_sort=id&_order=desc&subject_like=${searchText.value}&_page=${page}&_limit=${limit}`);
@@ -53,11 +64,18 @@ export default{
         curPage.value = page;
       } catch (err) {
         console.log(err);
-        error.value = 'Something went wrong';
+        triggerToast('something went wrong !', 'alert-danger');
       }
     }
 
     getTodoList();
+
+    const {
+      toastMessage,
+      toastColor,
+      showToast,
+      triggerToast,
+    } = useToast(); //함수를 실행시킴
 
     const addTodo = async (todo) => {
       error.value = '';
@@ -70,7 +88,7 @@ export default{
         // todolist.value.push(res.data); 바로 getTodoList하니까 이 부분은 사라져도 새로 todo가 잘 추가되서 보이는 것!
       } catch (err) {
         console.log(err);
-        error.value = 'Something went wrong';
+        triggerToast('something went wrong !', 'alert-danger');
       }
     };
 
@@ -82,7 +100,7 @@ export default{
         getTodoList(1);
       } catch(err){
         console.log(err)
-        error.value = 'Something went wrong';
+        triggerToast('something went wrong !', 'alert-danger');
       }
     };
 
@@ -96,11 +114,10 @@ export default{
         todoList.value[index].completed = checked
       } catch (err){
         console.log(err)
-        error.value = 'Something went wrong';
+        triggerToast('something went wrong !', 'alert-danger');
       }
     };
 
-    let timeout = null;
     const searchTodo = () =>{
       clearTimeout(timeout);
       getTodoList(1);
@@ -123,8 +140,11 @@ export default{
       completeTodo,
       searchTodo,
       searchText,
-      // filteredTodoList,
       error,
+      toastMessage,
+      toastColor,
+      showToast,
+      triggerToast,
     };
   }
 }
