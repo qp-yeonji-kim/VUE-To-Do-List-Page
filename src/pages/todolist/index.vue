@@ -1,6 +1,14 @@
 <template>
   <div>
-    <h2>To-Do-List</h2>
+    <div class="d-flex justify-content-between mb-3">
+      <h2>To-Do-List</h2>
+      <button
+          class="btn btn-primary"
+          @click="moveToCreatePage"
+      >
+        Create Todo
+      </button>
+    </div>
     <input class="form-control"
            type="text"
            v-model="searchText"
@@ -37,6 +45,7 @@ import TodoListCard from '@/components/TodoListCard.vue';
 import axios from 'axios';
 import Toast from '@/components/Toast.vue';
 import { useToast } from '@/composables/toast';
+import { useRouter } from 'vue-router';
 
 export default{
   components: {
@@ -45,6 +54,7 @@ export default{
     Toast,
   },
   setup(){
+    const router = useRouter();
     const todoList = ref([]);
     const error = ref('');
     const numTodos = ref(0);
@@ -129,6 +139,12 @@ export default{
       }, 2000)
     });
 
+    const moveToCreatePage = () => {
+      router.push({
+        name: 'TodoCreate',
+      })
+    };
+
     return {
       todoList,
       numTodos,
@@ -145,6 +161,7 @@ export default{
       toastColor,
       showToast,
       triggerToast,
+      moveToCreatePage,
     };
   }
 }
