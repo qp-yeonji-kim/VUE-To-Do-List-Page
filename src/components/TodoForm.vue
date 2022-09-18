@@ -15,6 +15,12 @@
               type="text"
               class="form-control"
           >
+          <div
+              v-if="subjectError"
+              class="text-red"
+          >
+            {{ subjectError }}
+          </div>
         </div>
       </div>
       <div v-if="editing" class="col-6">
@@ -90,6 +96,7 @@ export default{
       completed: false,
       body: '',
     });
+    const subjectError = ref('');
     const originalTodo = ref(null);
     const loading = ref(false);
     const todoId = route.params.id;
@@ -105,7 +112,6 @@ export default{
       loading.value = true;
       try{
         const res = await axios.get(`http://localhost:3000/todolist/${todoId}`);
-
         todo.value = { ...res.data };
         originalTodo.value = { ...res.data };
         loading.value = false;
@@ -135,6 +141,11 @@ export default{
     }
 
     const onSave = async () => {
+      subjectError.value= '';
+      if (!todo.value.subject) {
+        subjectError.value = 'Subject is required';
+        return;
+      }
       try{
         let res; //응답 변수를 밖에 만들어줌.
         const data = {
@@ -169,12 +180,15 @@ export default{
       todoUpdated,
       showToast,
       toastMessage,
-      toastColor
+      toastColor,
+      subjectError,
     }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+.text-red{
+  color: #f00;
+} /*클래스 명 뒤에 유니크한 아이디가 추가된 것을 확인할 수 있음.*/
 </style>
