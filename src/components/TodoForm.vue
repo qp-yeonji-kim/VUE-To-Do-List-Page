@@ -132,8 +132,6 @@ export default{
 
     if (props.editing){
       getTodo();
-    } else {
-
     }
 
     const onSave = async () => {
