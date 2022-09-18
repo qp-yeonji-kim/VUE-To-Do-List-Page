@@ -49,7 +49,7 @@
         class="btn btn-primary"
         :disabled="!todoUpdated"
     >
-      Save
+      {{ editing ? 'Update' : 'Create' }}
     </button>
     <button
         class="btn btn-outline-dark ml-2"
@@ -138,13 +138,23 @@ export default{
 
     const onSave = async () => {
       try{
-        const res = await axios.put(`http://localhost:3000/todolist/${todoId}`, {
+        let res; //응답 변수를 밖에 만들어줌.
+        const data = {
           subject: todo.value.subject,
-          completed: todo.value.completed
-        });
+          completed: todo.value.completed,
+          body: todo.value.body,
+        }
+        if (props.editing){
+          res = await axios.put(`http://localhost:3000/todolist/${todoId}`, data);
+          originalTodo.value = { ...res.data };
+        } else{
+          res = await axios.post(`http://localhost:3000/todolist`, data);
+          todo.value.subject = '';
+          todo.value.body = '';
+        }
 
-        originalTodo.value = { ...res.data };
-        triggerToast('Successfully saved !', 'alert-success');
+        const message = 'Successfully ' + (props.editing ? 'Updated' : 'Created') + '!'
+        triggerToast(message, 'alert-success');
       } catch(error){
         console.log(error);
         triggerToast('Something went wrong !', 'alert-danger');
