@@ -63,11 +63,13 @@
       Cancel
     </button>
   </form>
-  <Toast
-      v-if="showToast"
-      :message= "toastMessage"
-      :color= "toastColor"
-  />
+  <transition name="fade">
+    <Toast
+        v-if="showToast"
+        :message= "toastMessage"
+        :color= "toastColor"
+    />
+  </transition>
 </template>
 
 <script>
@@ -188,7 +190,23 @@ export default{
 </script>
 
 <style scoped>
-.text-red{
+.text-red {
   color: #f00;
-} /*클래스 명 뒤에 유니크한 아이디가 추가된 것을 확인할 수 있음.*/
+}
+.fade-enter-active,
+.fade-leave-active{
+  transition: all 0.5s ease; /* 두가지 속성에 대한 transition은 all로 준다. */
+}
+
+.fade-enter-from,
+.fade-leave-to{
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.fade-enter-to,
+.fade-leave-from{
+  opacity: 1;
+  transform: translateY(0);
+}
 </style>
