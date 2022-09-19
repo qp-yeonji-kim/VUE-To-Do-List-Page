@@ -3,17 +3,18 @@
     <div
         class="card-body p-2 d-flex align-items-center"
         @click="moveToPage(todoname.id)">
-      <div class="form-check flex-grow-1">
-        <input class="form-check-input"
-               type="checkbox"
-               :checked="todoname.completed"
-               style="cursor: pointer"
-               @change="sendCompleteTodo(index, $event)"
-               @click.stop >
-<!-- $event: 이벤트 객체를 확실하게 부모 요소로 올려주기 위해 받아오는 이벤트 객체 -->
-        <label class="form-check-label" :class="{todoname: todoname.completed}">
+      <div class="flex-grow-1">
+        <input
+            class="ml-2 mr-2"
+            type="checkbox"
+            :checked="todoname.completed"
+            style="cursor: pointer"
+            @change="sendCompleteTodo(index, $event)"
+            @click.stop > <!-- $event: 이벤트 객체를 확실하게 부모 요소로 올려주기 위해 받아오는 이벤트 객체 -->
+        <span
+            :class="{todoname: todoname.completed}">
           {{ todoname.subject }}
-        </label>
+        </span>
       </div>
       <div>
         <button class="btn btn-danger btn-sm" @click.stop="sendDeleteTodo(index)">delete</button>
