@@ -4,7 +4,8 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5">
-            Delete Todo
+            <!--바뀌는 부분에 slot으르 넣어줌-->
+            <slot name="title"></slot>
           </h1>
           <button type="button"
                   class="btn-close"
@@ -13,23 +14,10 @@
           </button>
         </div>
         <div class="modal-body">
-          Are you sure you want to delete the todo?
+          <slot name="body"></slot>
         </div>
         <div class="modal-footer">
-          <button
-              type="button"
-              class="btn btn-secondary"
-              @click="onClose"
-          >
-            Close
-          </button>
-          <button
-              type="button"
-              class="btn btn-danger"
-              @click="onDelete"
-          >
-            Delete
-          </button> <!--delete 이벤트를 부모컴포넌트로 올려서 부모컴포넌트에 그려진 card를 지운다.-->
+          <slot name="footer"></slot>
         </div>
       </div>
     </div>
@@ -41,12 +29,8 @@ export default {
     const onClose = () => {
       emit('close');
     }
-    const onDelete = () => {
-      emit('delete');
-    }
     return {
       onClose,
-      onDelete
     }
   }
 }
