@@ -2,13 +2,13 @@
   <div v-for="(todoname, index) in sendTodoList" :key="todoname.id" class="card mt-2">
     <div
         class="card-body p-2 d-flex align-items-center"
+        style="cursor: pointer"
         @click="moveToPage(todoname.id)">
       <div class="flex-grow-1">
         <input
             class="ml-2 mr-2"
             type="checkbox"
             :checked="todoname.completed"
-            style="cursor: pointer"
             @change="sendCompleteTodo(index, $event)"
             @click.stop > <!-- $event: 이벤트 객체를 확실하게 부모 요소로 올려주기 위해 받아오는 이벤트 객체 -->
         <span
@@ -17,14 +17,24 @@
         </span>
       </div>
       <div>
-        <button class="btn btn-danger btn-sm" @click.stop="sendDeleteTodo(index)">delete</button>
+        <button class="btn btn-danger btn-sm" @click.stop="openModal(todoname.id)">delete</button>
       </div>
     </div>
   </div>
+  <Modal
+    v-if="showModal"
+    @close="closeModal"
+  />
 </template>
 <script>
   import { useRouter } from 'vue-router';
+  import Modal from '@/components/Modal.vue'
+  import { ref } from 'vue';
+
   export default{
+    components: {
+      Modal
+    },
     props: {
       sendTodoList: {
         type: Array,
@@ -34,12 +44,24 @@
     emits: ['receiveCompleteTodo', 'receiveDeleteTodo'],
     setup(props, { emit }){
       const router = useRouter();
+      const todoDeleteId = ref(null);
+      const showModal = ref(false);
       const sendCompleteTodo = (index, event) => {
         emit('receiveCompleteTodo', index, event.target.checked);
       };
 
       const sendDeleteTodo = (index) => {
         emit('receiveDeleteTodo', index);
+      };
+
+      const openModal = (id) => {
+        todoDeleteId.value = id;
+        showModal.value = true;
+      };
+
+      const closeModal = () => {
+        todoDeleteId.value = null;
+        showModal.value = false;
       };
 
       const moveToPage = (todoId) => {
@@ -57,6 +79,9 @@
         sendCompleteTodo,
         sendDeleteTodo,
         moveToPage,
+        showModal,
+        openModal,
+        closeModal,
       }
     }
   }

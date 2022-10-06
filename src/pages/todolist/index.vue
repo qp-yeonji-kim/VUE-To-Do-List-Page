@@ -17,7 +17,11 @@
     <hr />
     <div>{{ error }}</div>
     <div v-if="!todoList.length">There is nothing to display</div> <!--filteredTodoList-->
-    <TodoListCard :sendTodoList="todoList" @receiveCompleteTodo="completeTodo" @receiveDeleteTodo="deleteTodo"/>  <!--filteredTodoList-->
+    <TodoListCard
+        :sendTodoList="todoList"
+        @receiveCompleteTodo="completeTodo"
+        @receiveDeleteTodo="deleteTodo"
+    />  <!--filteredTodoList-->
     <hr />
     <nav aria-label="Page navigation example">
       <ul class="pagination">

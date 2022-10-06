@@ -51,7 +51,7 @@
     },
     {
       "subject": "어떻게 보이는지 테스트",
-      "completed": false,
+      "completed": true,
       "body": "호",
       "id": 13
     },
@@ -66,6 +66,12 @@
       "completed": false,
       "body": "",
       "id": 15
+    },
+    {
+      "subject": "예~~",
+      "completed": false,
+      "body": "신기하구만",
+      "id": 16
     }
   ]
 }
