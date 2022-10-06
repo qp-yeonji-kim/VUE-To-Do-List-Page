@@ -103,9 +103,8 @@ export default{
       }
     };
 
-    const deleteTodo = async (index) => {
+    const deleteTodo = async (id) => {
       error.value = '';
-      const id = todoList.value[index].id;
       try{
         await axios.delete('http://localhost:3000/todoList/' + id);
         getTodoList(1);

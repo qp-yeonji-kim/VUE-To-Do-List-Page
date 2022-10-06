@@ -3,7 +3,9 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <h1 class="modal-title fs-5">
+            Delete Todo
+          </h1>
           <button type="button"
                   class="btn-close"
                   data-bs-dismiss="modal"
@@ -11,7 +13,7 @@
           </button>
         </div>
         <div class="modal-body">
-          ...
+          Are you sure you want to delete the todo?
         </div>
         <div class="modal-footer">
           <button
@@ -21,7 +23,13 @@
           >
             Close
           </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button
+              type="button"
+              class="btn btn-danger"
+              @click="onDelete"
+          >
+            Delete
+          </button> <!--delete 이벤트를 부모컴포넌트로 올려서 부모컴포넌트에 그려진 card를 지운다.-->
         </div>
       </div>
     </div>
@@ -33,8 +41,12 @@ export default {
     const onClose = () => {
       emit('close');
     }
+    const onDelete = () => {
+      emit('delete');
+    }
     return {
-      onClose
+      onClose,
+      onDelete
     }
   }
 }

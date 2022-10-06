@@ -24,6 +24,7 @@
   <Modal
     v-if="showModal"
     @close="closeModal"
+    @delete="sendDeleteTodo"
   />
 </template>
 <script>
@@ -50,8 +51,11 @@
         emit('receiveCompleteTodo', index, event.target.checked);
       };
 
-      const sendDeleteTodo = (index) => {
-        emit('receiveDeleteTodo', index);
+      const sendDeleteTodo = () => {
+        emit('receiveDeleteTodo', todoDeleteId.value);
+
+        showModal.value = false;
+        todoDeleteId.value = null;
       };
 
       const openModal = (id) => {
