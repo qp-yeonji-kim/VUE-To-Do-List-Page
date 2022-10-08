@@ -1,26 +1,39 @@
 <template>
-  <div v-for="(todoname, index) in sendTodoList" :key="todoname.id" class="card mt-2">
-    <div
-        class="card-body p-2 d-flex align-items-center"
-        style="cursor: pointer"
-        @click="moveToPage(todoname.id)">
-      <div class="flex-grow-1">
-        <input
-            class="ml-2 mr-2"
-            type="checkbox"
-            :checked="todoname.completed"
-            @change="sendCompleteTodo(index, $event)"
-            @click.stop > <!-- $event: 이벤트 객체를 확실하게 부모 요소로 올려주기 위해 받아오는 이벤트 객체 -->
-        <span
-            :class="{todoname: todoname.completed}">
-          {{ todoname.subject }}
-        </span>
+<!--  <div-->
+<!--      v-for="(todoname, index) in sendTodoList"-->
+<!--      :key="todoname.id"-->
+<!--      class="card mt-2">-->
+  <List
+      :items="sendTodoList"
+  >
+    <template #default="{ item, index }">
+      <div
+          class="card-body p-2 d-flex align-items-center"
+          style="cursor: pointer"
+          @click="moveToPage(item.id)">
+        <div class="flex-grow-1">
+          <input
+              class="ml-2 mr-2"
+              type="checkbox"
+              :checked="item.completed"
+              @change="sendCompleteTodo(index, $event)"
+              @click.stop > <!-- $event: 이벤트 객체를 확실하게 부모 요소로 올려주기 위해 받아오는 이벤트 객체 -->
+          <span
+              :class="{todoname: item.completed}">
+            {{ item.subject }}
+          </span>
+        </div>
+        <div>
+          <button
+              class="btn btn-danger btn-sm"
+              @click.stop="openModal(item.id)">
+            delete
+          </button>
+        </div>
       </div>
-      <div>
-        <button class="btn btn-danger btn-sm" @click.stop="openModal(todoname.id)">delete</button>
-      </div>
-    </div>
-  </div>
+    </template>
+  </List>
+<!--  </div>-->
   <Modal
     v-if="showModal"
     @close="closeModal"
@@ -31,10 +44,12 @@
   import { useRouter } from 'vue-router';
   import Modal from '@/components/DeleteModal.vue'
   import { ref } from 'vue';
+  import List from '@/components/List.vue'
 
   export default{
     components: {
-      Modal
+      Modal,
+      List,
     },
     props: {
       sendTodoList: {
