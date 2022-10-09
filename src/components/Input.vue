@@ -16,6 +16,7 @@
   </div>
 </template>
 <script>
+//useContext를 이용한 emit불러오기가 되지 않아서 어쩔 수 없이 내버려둠.
   export default{
     props: {
       label: {
