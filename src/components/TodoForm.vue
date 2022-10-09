@@ -64,7 +64,7 @@
     </button>
     <button
         class="btn btn-outline-dark ml-2"
-        @click="moveToTodolistPage">
+        @click="moveToTodoListPage">
       Cancel
     </button>
   </form>
@@ -80,7 +80,7 @@
 <script>
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios'; /* axios를 통해 데이터를 받아올 것임. */
-import { ref, computed, onUpdated } from 'vue';
+import { ref, computed } from 'vue';
 import _ from 'lodash'; /* 통상적으로 lodash는 _를 써준다 한다. */
 import Toast from '@/components/Toast.vue';
 import { useToast } from '@/composables/toast';
@@ -105,9 +105,6 @@ export default{
       completed: false,
       body: '',
     });
-    onUpdated(() => {
-      console.log(todo.value.subject);
-    })
     const subjectError = ref('');
     const originalTodo = ref(null);
     const loading = ref(false);
@@ -142,7 +139,7 @@ export default{
       todo.value.completed = !todo.value.completed;
     }
 
-    const moveToTodolistPage = () => {
+    const moveToTodoListPage = () => {
       router.push({
         name: 'todolist'
       })
@@ -187,7 +184,7 @@ export default{
       todo,
       loading,
       toggleTodoStatus,
-      moveToTodolistPage,
+      moveToTodoListPage,
       onSave,
       todoUpdated,
       showToast,

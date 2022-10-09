@@ -13,11 +13,12 @@
 </template>
 
 <script>
-  import {ref} from "vue";
+import {ref, useContext} from "vue";
 
   export default {
     emits: ['sendTodo'],
-    setup(props, {emit}){
+    setup(){
+      const { emit } = useContext();
       let todo = ref('');
       let hasError = ref(false);
       const onSubmit = () => {

@@ -24,8 +24,11 @@
   </div>
 </template>
 <script>
+import { useContext } from "vue";
+
 export default {
-  setup(props, { emit }) {
+  setup() {
+    const { emit } = useContext();
     const onClose = () => {
       emit('close');
     }
